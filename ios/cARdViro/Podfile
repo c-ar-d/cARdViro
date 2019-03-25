@@ -1,0 +1,12 @@
+platform :ios, '9.3'
+target 'cARdViro' do
+  use_frameworks!
+  pod 'ViroReact', :path => '../node_modules/react-viro/ios/'
+  pod 'ViroKit', :path => '../node_modules/react-viro/ios/dist/ViroRenderer/'
+  pod 'react-native-camera-kit', :path => '../node_modules/react-native-camera-kit'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
+end
