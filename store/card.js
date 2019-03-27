@@ -1,43 +1,31 @@
 import axios from 'axios'
-const serverUrl = 'https://c-ar-d-server.herokuapp.com'
 
-const initialState = {
-  card: {}
-}
-//ACTION TYPES
-const SET_SELECTED_CARD = 'SET_SELECTED_CARD'
-const GET_SELECTED_CARD = 'GET_SELECTED_CARD'
+// ACTION TYPES
+const GET_SCANNED_CARD = 'GET_SCANNED_CARD'
 
-//ACTION CREATORS
-export const setSelectedCard = card => ({
-  type: SET_SELECTED_CARD,
+// ACTION CREATORS
+const gotScannedCard = card => ({
+  type: GET_SCANNED_CARD,
   card
 })
 
-export const getSelectedCard = () => ({
-  type: GET_SELECTED_CARD,
-}) // please correct if wrong!
-
-//THUNK
-export const fetchSelectedCard = (uuid) => async dispatch => {
+// THUNK CREATORS
+export const fetchScannedCard = cardURL => async dispatch => {
   try {
-    // const {data} = await axios.get(`${serverUrl}/api/cards/${uuid}`)
-    //replace once card route is updated to reflect server instead of local host
-    const {data} = await axios.get(`http://localhost:8080/api/cards/${uuid}`)
-    dispatch(setSelectedCard(data))
+    const card = await axios.get(cardURL)
+    dispatch(gotScannedCard(card.data))
+
   } catch (error) {
     console.error(error)
   }
 }
 
-export default function (card = {}, action) {
+export default function (state = {}, action) {
   switch (action.type) {
-
-    case SET_SELECTED_CARD:
-      return {card: action.card}
-    case GET_SELECTED_CARD:
-     return action.card // please correct if wrong
+    case
+    GET_SCANNED_CARD:
+      return action.card
     default:
-      return card
+      return state
   }
 }
