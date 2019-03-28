@@ -13,11 +13,11 @@ import {
 
  class cardWithVR extends Component {
   render() {
-    console.warn('this is from viro component', this.props.card)
+    // console.warn('this is from viro component', this.props.card)
     const card = this.props.card
     return (
       <ViroScene>
-        <Viro360Image source={require('../assets/aurora_360.jpg')} />
+        <Viro360Image source={require('../assets/guadalupe_360.jpg')} />
         <ViroNode
           position={[0, 0, -3]}
           rotation={[0, 0, 0]}
