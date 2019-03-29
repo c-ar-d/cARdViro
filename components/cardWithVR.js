@@ -8,12 +8,11 @@ import {
   ViroNode,
   ViroVideo,
   Viro360Image,
-  ViroImage,
+  ViroImage
 } from 'react-viro'
 
- class cardWithVR extends Component {
+class cardWithVR extends Component {
   render() {
-    // console.warn('this is from viro component', this.props.card)
     const card = this.props.card
     return (
       <ViroScene>
@@ -24,7 +23,7 @@ import {
           scale={[1.5, 1.5, 1.5]}
         >
           <ViroVideo
-            source={{uri: card.video}}
+            source={{ uri: card.video }}
             loop={true}
             position={[0, 0, 0]}
             scale={[2, 2, 0]}
@@ -32,9 +31,10 @@ import {
           <ViroImage
             height={1}
             width={1}
-            position={[0, -1.5, 0]}
+            position={[0, -2, 0]}
             rotation={[-45, 0, 0]}
-            source={{uri: card.link}}
+            scale={[2, 2, 2]}
+            source={{ uri: card.link }}
           />
         </ViroNode>
       </ViroScene>
@@ -46,4 +46,7 @@ const mapStateToProps = state => ({
   card: state.card
 })
 
-export default connect(mapStateToProps, null)(cardWithVR)
+export default connect(
+  mapStateToProps,
+  null
+)(cardWithVR)
