@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet } from 'react-native'
-import { ViroARScene, ViroText, ViroConstants, ViroVideo } from 'react-viro'
+import { ViroARScene, ViroText, ViroConstants, ViroVideo} from 'react-viro'
 
 const styles = StyleSheet.create({
   helloWorldTextStyle: {

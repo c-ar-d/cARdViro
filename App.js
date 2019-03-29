@@ -135,7 +135,7 @@ export default class App extends Component {
       <QRScanner />
         <Button
           style={styles.enterBarcodeManualButton}
-          title=""
+          title="Go to VR View"
           onPress={this._getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
         />
       </React.Fragment>
@@ -188,6 +188,7 @@ export default class App extends Component {
       <ViroARSceneNavigator
         {...this.state.sharedProps}
         initialScene={{ scene: InitialARScene }}
+        onExitViro={this._exitViro}
       />
     )
   }
@@ -216,7 +217,7 @@ export default class App extends Component {
   // This function "exits" Viro by setting the navigatorType to UNSET.
   _exitViro() {
     this.setState({
-      navigatorType: GET_SCAN_A_CARD
+      navigatorType: SELECT_AR_OR_VR
     })
   }
 }
