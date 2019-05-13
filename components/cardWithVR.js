@@ -42,6 +42,8 @@ class cardWithVR extends Component {
   }
 }
 
+
+
 const mapStateToProps = state => ({
   card: state.card
 })

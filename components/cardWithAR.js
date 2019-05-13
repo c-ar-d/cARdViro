@@ -6,6 +6,8 @@ import {
   ViroARScene,
   ViroText,
   ViroConstants,
+  ViroARTrackingTargets,
+  ViroARImageMarker,
   ViroVideo,
   ViroNode,
   ViroImage
@@ -21,6 +23,8 @@ const styles = StyleSheet.create({
   }
 })
 
+//let imageLink;
+
 class cardWithAR extends Component {
   constructor(props) {
     super(props)
@@ -32,15 +36,25 @@ class cardWithAR extends Component {
 
   render() {
     const card = this.props.card
+    // imageLink = card.link;
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
+        <ViroARImageMarker target={'targetCard'}>
+          <ViroVideo
+            source={require('../assets/Pears.mp4')}
+            loop={true}
+            position={[0, 0, -3]}
+            scale={[2, 2, 0]}
+          />
+        </ViroARImageMarker>
+
         <ViroText
           text={this.state.text}
           scale={[0.5, 0.5, 0.5]}
           position={[0, 0, -3]}
           style={styles.helloWorldTextStyle}
         />
-        <ViroNode
+        {/* <ViroNode
           position={[0, 0, -3]}
           rotation={[0, 0, 0]}
           scale={[1.5, 1.5, 1.5]}
@@ -59,7 +73,7 @@ class cardWithAR extends Component {
             scale={[2, 2, 2]}
             source={{ uri: card.link }}
           />
-        </ViroNode>
+        </ViroNode> */}
       </ViroARScene>
     )
   }
@@ -67,13 +81,20 @@ class cardWithAR extends Component {
   _onInitialized(state) {
     if (state === ViroConstants.TRACKING_NORMAL) {
       this.setState({
-        text: ''
       })
     } else if (state === ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
   }
 }
+
+ViroARTrackingTargets.createTargets({
+  targetCard: {
+    source: require('../assets/cardimagetest.png'),
+    orientation: 'Up',
+    physicalWidth: 0.14
+  }
+})
 
 const mapStateToProps = state => ({
   card: state.card
