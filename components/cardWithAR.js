@@ -23,67 +23,99 @@ const styles = StyleSheet.create({
   }
 })
 
-//let imageLink;
-
 class cardWithAR extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: 'Initializing AR...'
+      isTracking: false,
+      initialized: false
     }
-    this._onInitialized = this._onInitialized.bind(this)
   }
 
-  render() {
-    const card = this.props.card
-    // imageLink = card.link;
+  getNoTrackingUI(){
+    const { initialized } = this.state
     return (
-      <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroARImageMarker target={'targetCard'}>
-          <ViroVideo
-            source={require('../assets/Pears.mp4')}
-            loop={true}
-            position={[0, 0, -3]}
-            scale={[2, 2, 0]}
-          />
-        </ViroARImageMarker>
-
-        <ViroText
-          text={this.state.text}
-          scale={[0.5, 0.5, 0.5]}
-          position={[0, 0, -3]}
-          style={styles.helloWorldTextStyle}
-        />
-        {/* <ViroNode
-          position={[0, 0, -3]}
-          rotation={[0, 0, 0]}
-          scale={[1.5, 1.5, 1.5]}
-        >
-          <ViroVideo
-            source={{ uri: card.video }}
-            loop={true}
-            position={[0, 0, -3]}
-            scale={[2, 2, 0]}
-          />
-          <ViroImage
-            height={1}
-            width={1}
-            position={[0, -2, -3]}
-            rotation={[-45, 0, 0]}
-            scale={[2, 2, 2]}
-            source={{ uri: card.link }}
-          />
-        </ViroNode> */}
-      </ViroARScene>
+      <ViroText
+        text={ initialized ? 'Initializing AR...' : 'No Tracking'}
+        style={styles.helloWorldTextStyle}
+        position={[0, 0, -3]}
+        scale={[0.5, 0.5, 0.5]}
+      />
     )
   }
 
-  _onInitialized(state) {
+  getARScene() {
+    return (
+      <ViroNode>
+        <ViroARImageMarker target="targetCard">
+          <ViroVideo
+            source={require('../assets/Pears.mp4')}
+            loop={true}
+            position={[0, -1, 0]}
+            rotation={[-90, 0, 0]}
+            scale={[0.5, 0.5, 0.5]}
+          />
+        </ViroARImageMarker>
+      </ViroNode>
+    )
+  }
+
+  render() {
+    // const card = this.props.card
+    // imageLink = card.link
+    return (
+      <ViroARScene onTrackingUpdated={this._onInitialized} >
+        { this.state.isTracking ? this.getARScene() : this.getNoTrackingUI()}
+      </ViroARScene>
+      // <ViroARScene onTrackingUpdated={this._onInitialized}>
+      //   <ViroARImageMarker target="targetCard">
+      //     <ViroVideo
+      //       source={require('../assets/Pears.mp4')}
+      //       loop={true}
+      //       // position={[0, 0, -3]}
+      //       scale={[2, 2, 0]}
+      //     />
+      //   </ViroARImageMarker>
+
+      //   <ViroText
+      //     text={this.state.text}
+      //     style={styles.helloWorldTextStyle}
+      //     position={[0, 0, -3]}
+      //     scale={[0.5, 0.5, 0.5]}
+      //   />
+      //   <ViroNode
+      //     position={[0, 0, -3]}
+      //     rotation={[0, 0, 0]}
+      //     scale={[1.5, 1.5, 1.5]}
+      //   >
+      //     <ViroVideo
+      //       source={{ uri: card.video }}
+      //       loop={true}
+      //       position={[0, 0, -3]}
+      //       scale={[2, 2, 0]}
+      //     />
+      //     <ViroImage
+      //       height={1}
+      //       width={1}
+      //       position={[0, -2, -3]}
+      //       rotation={[-45, 0, 0]}
+      //       scale={[2, 2, 2]}
+      //       source={{ uri: card.link }}
+      //     />
+      //   </ViroNode>
+      // </ViroARScene>
+    )
+  }
+
+  _onInitialized = (state) => {
     if (state === ViroConstants.TRACKING_NORMAL) {
       this.setState({
+        isTracking: true
       })
     } else if (state === ViroConstants.TRACKING_NONE) {
-      // Handle loss of tracking
+      this.setState({
+        isTracking: false
+      })
     }
   }
 }
@@ -92,7 +124,8 @@ ViroARTrackingTargets.createTargets({
   targetCard: {
     source: require('../assets/cardimagetest.png'),
     orientation: 'Up',
-    physicalWidth: 0.14
+    physicalWidth: 0.14,
+    type: 'Image'
   }
 })
 
