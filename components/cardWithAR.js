@@ -35,7 +35,7 @@ class cardWithAR extends Component {
     const { initialized } = this.state
     return (
       <ViroText
-        text={ initialized ? 'Initializing AR...' : 'No Tracking'}
+        text={ initialized ? 'No Tracking' : 'Initializing AR...'}
         style={styles.helloWorldTextStyle}
         position={[0, 0, -3]}
         scale={[0.5, 0.5, 0.5]}
