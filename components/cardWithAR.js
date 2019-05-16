@@ -10,7 +10,6 @@ import {
   ViroARImageMarker,
   ViroVideo,
   ViroNode,
-  ViroImage
 } from 'react-viro'
 
 const styles = StyleSheet.create({
@@ -43,13 +42,13 @@ class cardWithAR extends Component {
       />
     )
   }
-
   getARScene() {
+    const card = this.props.card
     return (
       <ViroNode>
         <ViroARImageMarker target="targetCard">
           <ViroVideo
-            source={require('../assets/Pears.mp4')}
+            source={{ uri: card.video }}
             loop={true}
             position={[0, -1, 0]}
             rotation={[-90, 0, 0]}
@@ -61,52 +60,21 @@ class cardWithAR extends Component {
   }
 
   render() {
-    // const card = this.props.card
-    // imageLink = card.link
+    const card = this.props.card
+    ViroARTrackingTargets.createTargets({
+      targetCard: {
+        source: {uri: card.link},
+        orientation: 'Up',
+        physicalWidth: 0.2,
+        type: 'Image'
+      }
+    })
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
         { this.state.isTracking ? this.getARScene() : this.getNoTrackingUI()}
       </ViroARScene>
-      // <ViroARScene onTrackingUpdated={this._onInitialized}>
-      //   <ViroARImageMarker target="targetCard">
-      //     <ViroVideo
-      //       source={require('../assets/Pears.mp4')}
-      //       loop={true}
-      //       // position={[0, 0, -3]}
-      //       scale={[2, 2, 0]}
-      //     />
-      //   </ViroARImageMarker>
-
-      //   <ViroText
-      //     text={this.state.text}
-      //     style={styles.helloWorldTextStyle}
-      //     position={[0, 0, -3]}
-      //     scale={[0.5, 0.5, 0.5]}
-      //   />
-      //   <ViroNode
-      //     position={[0, 0, -3]}
-      //     rotation={[0, 0, 0]}
-      //     scale={[1.5, 1.5, 1.5]}
-      //   >
-      //     <ViroVideo
-      //       source={{ uri: card.video }}
-      //       loop={true}
-      //       position={[0, 0, -3]}
-      //       scale={[2, 2, 0]}
-      //     />
-      //     <ViroImage
-      //       height={1}
-      //       width={1}
-      //       position={[0, -2, -3]}
-      //       rotation={[-45, 0, 0]}
-      //       scale={[2, 2, 2]}
-      //       source={{ uri: card.link }}
-      //     />
-      //   </ViroNode>
-      // </ViroARScene>
     )
   }
-
   _onInitialized = (state) => {
     if (state === ViroConstants.TRACKING_NORMAL) {
       this.setState({
@@ -119,15 +87,6 @@ class cardWithAR extends Component {
     }
   }
 }
-
-ViroARTrackingTargets.createTargets({
-  targetCard: {
-    source: require('../assets/cardimagetest.png'),
-    orientation: 'Up',
-    physicalWidth: 0.14,
-    type: 'Image'
-  }
-})
 
 const mapStateToProps = state => ({
   card: state.card
